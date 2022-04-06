@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "admin_panel"
+version = "0.1.0"
+description = "New admin panel script 1"
+authors = ["Balasov Denis <balasov.denis@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "~3.9"
+Django = "3.2"
+flake8 = "~4.0"
+isort = "~5.10"
+django-split-settings = "^1.1.0"
+psycopg2-binary = "^2.9.3"
+python-dotenv = "^0.20.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "~3.10"
