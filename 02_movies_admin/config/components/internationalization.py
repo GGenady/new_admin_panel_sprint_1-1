@@ -11,3 +11,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# A list of directories where Django looks for translation files
+LOCALE_PATHS = ['movies/locale']
