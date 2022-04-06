@@ -1,6 +1,8 @@
 
 -- DATABASE movies_database
 
+BEGIN;
+
 CREATE SCHEMA IF NOT EXISTS content;
 
 
@@ -54,9 +56,14 @@ CREATE INDEX IF NOT EXISTS film_work_title_idx ON content.film_work(title);
 
 CREATE INDEX IF NOT EXISTS person_full_name_idx ON content.person(full_name);
 
-CREATE INDEX IF NOT EXISTS creation_date_rating_idx ON content.film_work (creation_date, rating);
+CREATE INDEX IF NOT EXISTS creation_date_rating_type_idx ON content.film_work (creation_date, rating, type);
+
+CREATE INDEX IF NOT EXISTS rating_type_idx ON content.film_work (rating, type);
 
 CREATE UNIQUE INDEX IF NOT EXISTS film_work_person_idx ON content.person_film_work (film_work_id, person_id);
 
+CREATE UNIQUE INDEX IF NOT EXISTS film_work_genre_idx ON content.genre_film_work (film_work_id, genre_id);
 
 -- ALTER ROLE app SET search_path TO content,public;
+
+COMMIT;
