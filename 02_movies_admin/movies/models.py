@@ -55,6 +55,10 @@ class Person(UUIDMixin, TimeStampedMixin):
         verbose_name = _('person')
         verbose_name_plural = _('persons')
 
+        indexes = [
+            models.Index(fields=['full_name'], name='person_full_name_idx'),
+        ]
+
 
 class Filmwork(UUIDMixin, TimeStampedMixin):
 
@@ -84,6 +88,13 @@ class Filmwork(UUIDMixin, TimeStampedMixin):
         verbose_name = _('film_work')
         verbose_name_plural = _('film_works')
 
+        indexes = [
+            models.Index(fields=['title'], name='film_work_title_idx'),
+            models.Index(fields=['creation_date', 'rating', 'type'],
+                         name='creation_date_rating_type_idx'),
+            models.Index(fields=['rating', 'type'], name='rating_type_idx')
+        ]
+
 
 class GenreFilmwork(UUIDMixin):
     film_work = models.ForeignKey('Filmwork',
@@ -100,9 +111,15 @@ class GenreFilmwork(UUIDMixin):
 
     class Meta:
         db_table = "content\".\"genre_film_work"
-        unique_together = (('film_work', 'genre'),)
         verbose_name = _('genre_film_work')
         verbose_name_plural = _('genre_film_works')
+
+        constraints = [
+            models.UniqueConstraint(fields=['film_work', 'genre'], name='film_work_genre_unq')
+        ]
+        indexes = [
+            models.Index(fields=['film_work', 'genre'], name='film_work_genre_idx'),
+        ]
 
 
 class PersonFilmwork(UUIDMixin):
@@ -121,6 +138,12 @@ class PersonFilmwork(UUIDMixin):
 
     class Meta:
         db_table = "content\".\"person_film_work"
-        unique_together = (('film_work', 'person'),)
         verbose_name = _('person_film_work')
         verbose_name_plural = _('person_film_works')
+
+        constraints = [
+            models.UniqueConstraint(fields=['film_work', 'person'], name='film_work_person_unq')
+        ]
+        indexes = [
+            models.Index(fields=['film_work', 'person'], name='film_work_person_idx'),
+        ]
