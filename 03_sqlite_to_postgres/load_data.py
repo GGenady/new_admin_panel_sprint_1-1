@@ -35,8 +35,15 @@ def load_from_sqlite(connection: sqlite3.Connection, pg_conn: _connection):
     postgres_saver = PostgresSaver(pg_conn)
     sqlite_loader = SQLiteLoader(connection)
 
-    data = sqlite_loader.load_movies()
-    postgres_saver.save_all_data(data)
+    # Cначала загружаются данные из основных таблиц (film_work, person, genre), затем от зависивых
+    for load_method in sqlite_loader.get_load_methods():
+
+        # Загружаю данные пачками с каждой таблице по отдельности, до полного переноса
+        while True:
+            data = load_method()
+            if not any(data.values()):
+                break
+            postgres_saver.save_all_data(data)
 
 
 if __name__ == '__main__':
