@@ -7,21 +7,9 @@ from db_tools import PostgresSaver, SQLiteLoader
 from dotenv import load_dotenv
 from psycopg2.extensions import connection as _connection
 from psycopg2.extras import execute_batch
+from config import dsn, db_path
 
 load_dotenv()
-
-#  postgres
-dsn = {
-    'user': os.environ.get('DB_USER'),
-    'password': os.environ.get('DB_PASSWORD'),
-    'host': os.environ.get('DB_HOST', '127.0.0.1'),
-    'port': os.environ.get('DB_PORT', 5432),
-    'dbname': os.environ.get('DB_NAME')
-}
-
-#  sqlite
-db_path = 'db.sqlite'
-
 
 @contextmanager
 def conn_context(db_path: str):
